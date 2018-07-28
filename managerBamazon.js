@@ -1,7 +1,7 @@
 //NPM packages
 var mysql = require('mysql');
 var inquirer = require("inquirer");
-
+var colors = require('colors');
 //Connecting to MySQL database
 var connection = mysql.createConnection ({
     host: "localhost",
@@ -14,7 +14,7 @@ var connection = mysql.createConnection ({
 //checking connection
 connection.connect (function(err){
     if (err) throw err;
-    console.log("connected as id: " + connection.threadId);
+    console.log("connected as id: ".green + connection.threadId);
     menuOptions();
 }) 
 //what options the manager has 
@@ -99,7 +99,7 @@ var addStock = function(res){
 
                     stock_quantity:answer.stock
                 },function(err,res){
-                    console.log("Your Product Stock has been updated!");
+                    console.log("Your Product Stock has been updated!".green);
                     menuOptions();
                 })
             })

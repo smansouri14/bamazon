@@ -1,7 +1,7 @@
 //NPM packages
 var mysql = require('mysql');
 var inquirer = require("inquirer");
-
+var colors = require('colors');
 //Connecting to MySQL database
 var connection = mysql.createConnection ({
     host: "localhost",
@@ -14,7 +14,10 @@ var connection = mysql.createConnection ({
 //checking connection
 connection.connect (function(err){
     if (err) throw err;
+    console.log("------------------------------------------------------------".magenta);
     console.log("connected as id: " + connection.threadId);
+    console.log("------------------------------------------------------------".green);
+
     displayTable();
 }) 
 //Displays the Products table in MySQL to the command line
@@ -56,18 +59,18 @@ var customerChoice = function(res){
                 }).then(function(answer){
                     if((res[id].stock_quantity-answer.amount)>0){
                         connection.query("UPDATE products SET stock_quantity='"+(res[id].stock_quantity-answer.amount)+"' WHERE product_name='"+product+"'", function(err,res2){
-                            console.log("------------------------------------------------------------");
-                            console.log("Product has been purchased!"+ "$"+((answer.amount) * (res[id].price)));
+                            console.log("------------------------------------------------------------".green);
+                            console.log("Product has been purchased!".green+ "$".green+((answer.amount) * (res[id].price)));
                             console.log("------------------------------------------------------------");
                             displayTable();
                         })
                     } else{
-                        console.log("Not enough in stock");
+                        console.log("Not enough in stock".red);
                         customerChoice(res);
                     }
                 })
             }
-        }
+        } 
     })
 }
 
